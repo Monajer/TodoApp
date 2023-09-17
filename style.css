@@ -11,7 +11,13 @@ body{
     border-radius: 8px;
     padding: 15px;
     background-color: rgb(164, 217, 164);
+    overflow-y: scroll;
 }
+
+.app::-webkit-scrollbar {
+    width: 0 !important
+}
+
 
 
 #addNew {
