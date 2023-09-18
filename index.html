@@ -57,11 +57,12 @@
             <div>
                 <span class="fw-bold">task 1</span>
                 <span class="small text-secondary">2023-9-13</span>
+
                 <p>become pro programmer</p>
 
                 <span class="options">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    <i class="fa-solid fa-trash"></i>                    
+                    <i onClick ="editTask(this)" data-bs-toggle="modal" data-bs-target="#form" class="fa-solid fa-pen-to-square"></i>
+                    <i onClick ="deleteTask(this)" class="fa-solid fa-trash"></i>                    
                 </span>
             </div>
             <div>
@@ -70,8 +71,8 @@
             <p>it's time to enjoy</p>
 
             <span class="options">
-                <i class="fa-solid fa-pen-to-square"></i>
-                <i class="fa-solid fa-trash"></i>                    
+                <i onClick ="editTask(this)" data-bs-toggle="modal" data-bs-target="#form" class="fa-solid fa-pen-to-square"></i>
+                <i onClick ="deleteTask(this)" class="fa-solid fa-trash"></i>                    
             </span>
         </div>
     </div>

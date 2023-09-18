@@ -1,6 +1,10 @@
 body{
     font-family: sans-serif;
     background-color: rgb(202, 207, 159);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
