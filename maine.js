@@ -94,7 +94,7 @@ const refreshUi = () => {
 const todoObjectToHtmlElement = (todo, i) => {
     return `
     <div>
-        <span class="fw-bold">${todo.title}</span>........................
+        <span class="fw-bold">${todo.title}</span>
         
         <span class="small text-secondary">${todo.due}</span>
         <p>${todo.description}</p>
