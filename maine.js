@@ -1,88 +1,129 @@
 let form = document.getElementById("form")
-let textInput = document.getElementById("textInput")
-let dateInput = document.getElementById("dateInput")
-let textarea = document.getElementById("textarea")
+
+let titleInput = document.getElementById("titleInput")
+let dueDateInput = document.getElementById("dueDateInput")
+let descriptionInput = document.getElementById("descriptionInput")
+
 let msg = document.getElementById("msg")
-let tasks = document.getElementById("tasks")
+let todos = document.getElementById("todos")
 let add = document.getElementById("add")
 
-form.addEventListener("submit", (e)=>{
-    e.preventDefault()
+form.addEventListener("submit", (event)=>{
+    event.preventDefault()
     formValidation()
 })
 
 let formValidation = () => {
-  if (textInput.value === "") {
-    console.log("failure");
-    msg.innerHTML = "Task cannot be blank";
-  } else {
-    console.log("success");
-    msg.innerHTML = "";
-    acceptData();
-    add.setAttribute("data-bs-dismiss", "modal");
-    add.click();
-    add.setAttribute("data-bs-dismiss", "");
+    
+    let title = titleInput.value
+    let dueDate = dueDateInput.value
+    let description = descriptionInput.value
+
+    if ( title == "" ){
+        msg.innerHTML = "Please put the task name"
+    } else {
+        let todo = {
+            title: title,
+            due: dueDate,
+            description: description
+        }
+        msg.innerHTML = ""
+        clearForm()
+        closeForm()
+        createTodo(todo)
+        
     }
 }
 
-let data = []
-
-let acceptData = ()=>{
-    data.push({
-        text : textInput.value,
-        date : dateInput.value,
-        description : textarea.value,
-    })
-
-    localStorage.setItem("data", JSON.stringify(data))
-
-    console.log(data)
-    createTasks()
+const clearForm = () => {
+    titleInput.value = ""
+    dueDateInput.value = ""
+    descriptionInput.value = ""
 }
 
-let createTasks = ()=>{
-    tasks.innerHTML = ""
-    data.map((x, y)=>{
-        return (tasks.innerHTML += `
-        <div id=${y}>
-            <span class="fw-bold">${x.text}</span>
-            <span class="small text-secondary">${x.date}</span>
-            <p>${x.description}</p>
+const closeForm = () => {
+    add.setAttribute("data-bs-dismiss", "modal");
+    add.click();
+    add.setAttribute("data-bs-dismiss", "");
+}
+
+
+let database = []
+
+
+const createTodo = (todo) => {
+    database.push(todo)
+    console.log(database);
+
+    refreshUi()
+}
+
+const deleteTodo = (e) => {
+    let deleteIndex = e.parentElement.id
+    database.splice(deleteIndex, 1)
+
+    refreshUi()
+}
+
+const editTodo = (e)=>{
+    let editIndex = e.parentElement.id
+
+    let editTodo = database[editIndex]
     
-            <span class="options">
-             <i onClick ="editTask(this)" data-bs-toggle="modal" data-bs-target="#form" class="fa-solid fa-pen-to-square"></i>
-             <i onClick ="deleteTask(this)" class="fa-solid fa-trash"></i>                    
-            </span>
-        </div>
-        `)
-    })
+    titleInput.value = editTodo.title
+    dueDateInput.value = editTodo.due
+    descriptionInput.value = editTodo.description
 
-    resetForm()
+    console.log(editTodo);
+
+    database.splice(editIndex, 1)
+
 }
 
-let deleteTask = (e) => {
-    e.parentElement.parentElement.remove();
+const refreshUi = () => {
+    let todosHtml = ""
+
+    for (let i = 0; i < database.length; i++){
+        let todo = database[i]
+        todosHtml = todoObjectToHtmlElement(todo, i) + todosHtml 
+    }
+
+    todos.innerHTML = todosHtml
 }
 
-let editTask = (e) => {
-    let selectedTask = e.parentElement.parentElement;
+const todoObjectToHtmlElement = (todo, i) => {
+    return `
+    <div>
+        <span class="fw-bold">${todo.title}</span>........................
+        
+        <span class="small text-secondary">${todo.due}</span>
+        <p>${todo.description}</p>
 
-    textInput.value = selectedTask.children[0].innerHTML;
-    dateInput.value = selectedTask.children[1].innerHTML;
-    textarea.value = selectedTask.children[2].innerHTML;
-
-    selectedTask.remove()
+        <span class="options" id="${i}">
+         <i onClick ="editTodo(this)" data-bs-toggle="modal" data-bs-target="#form" class="fa-solid fa-pen-to-square"></i>
+         <i onClick ="deleteTodo(this)" class="fa-solid fa-trash"></i>                    
+        </span>
+    </div>
+    `
 }
 
-let resetForm = ()=>{
-    textInput.value = ""
-    dateInput.value = ""
-    textarea.value = ""
-}
 
-(()=>{
-    data = JSON.parse(localStorage.getItem("data"))
-    createTasks()
-    console.log(data)
 
-})()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

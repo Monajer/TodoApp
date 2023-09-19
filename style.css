@@ -40,12 +40,12 @@ body{
     border-radius: 3px;
 }
 
-#tasks {
+#todos {
     display: grid;
     gap: 14px;
 }
 
-#tasks div {
+#todos div {
     background-color:rgb(190, 244, 201);
     border: 3px solid rgb(0, 96, 109);
     padding: 5px;
